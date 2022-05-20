@@ -36,9 +36,9 @@ int main(void)
     Complex a, b, c;
 
     cout << "Enter two complex numbers in the format (real, imaginary): " << endl;
-    cout << "Real part of first complex number: ";
+    cout << "First complex number: ";
     cin >> a;
-    cout << "Imaginary part of first complex number: ";
+    cout << "Second complex number: ";
     cin >> b;
 
     cout << "============================================================" << endl;
