@@ -33,7 +33,8 @@ Implement the following functions in this file.
 
 Complex::Complex()
 {
-    cout << "Default constructor called." << endl;
+    _real = 0.0;
+    _imaginary = 0.0;
 }
 
 Complex::Complex(float real)
