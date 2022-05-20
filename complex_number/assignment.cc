@@ -23,7 +23,7 @@ comply with the homework policy as stated in the "Assignments" page.
 */
 
 #include <iostream>
-#include "complex.cc"
+#include "complex.hh"
 
 using namespace std;
 
