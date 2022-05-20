@@ -100,5 +100,23 @@ int main(void)
     }
     cout << "============================================================" << endl;
 
+    cout << "============================================================" << endl;
+    cout << "Magnitude of a = " << a.magnitude() << endl;
+    cout << "Magnitude of b = " << b.magnitude() << endl;
+    cout << "Magnitude of c = " << c.magnitude() << endl;
+    cout << "============================================================" << endl;
+
+    cout << "============================================================" << endl;
+    cout << "Conjugate of a = " << a.conjugate() << endl;
+    cout << "Conjugate of b = " << b.conjugate() << endl;
+    cout << "Conjugate of c = " << c.conjugate() << endl;
+    cout << "============================================================" << endl;
+
+    cout << "============================================================" << endl;
+    cout << "Inverse of a = " << a.inverse() << endl;
+    cout << "Inverse of b = " << b.inverse() << endl;
+    cout << "Inverse of c = " << c.inverse() << endl;
+    cout << "============================================================" << endl;
+
     return 0;
 }
