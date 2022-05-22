@@ -31,6 +31,33 @@ of the Complex class. Read the class declaration in the header file
 Implement the following functions in this file.
 */
 
+// utils
+Complex add(const Complex &left, const Complex &right)
+{
+    float _real = left.getReal() + right.getReal();
+    float _imaginary = left.getImaginary() + right.getImaginary();
+    return Complex(_real, _imaginary);
+}
+
+Complex subtract(const Complex &left, const Complex &right)
+{
+    float _real = left.getReal() - right.getReal();
+    float _imaginary = left.getImaginary() - right.getImaginary();
+    return Complex(_real, _imaginary);
+}
+Complex multiply(const Complex &left, const Complex &right)
+{
+    float _real = left.getReal() * right.getReal() - left.getImaginary() * right.getImaginary();
+    float _imaginary = left.getReal() * right.getImaginary() + left.getImaginary() * right.getReal();
+    return Complex(_real, _imaginary);
+}
+Complex divide(const Complex &left, const Complex &right)
+{
+    float _real = (left.getReal() * right.getReal() + left.getImaginary() * right.getImaginary()) / (pow(right.getReal(), 2) + pow(right.getImaginary(), 2));
+    float _imaginary = (left.getImaginary() * right.getReal() - left.getReal() * right.getImaginary()) / (pow(right.getReal(), 2) + pow(right.getImaginary(), 2));
+    return Complex(_real, _imaginary);
+}
+
 Complex::Complex()
 {
     _real = 0.0;
@@ -54,6 +81,7 @@ Complex::Complex(const Complex &source)
     _imaginary = source._imaginary;
 }
 
+// accessor functions
 float Complex::getReal() const
 {
     return _real;
@@ -74,6 +102,7 @@ void Complex::setImaginary(float imaginary)
     _imaginary = imaginary;
 }
 
+// assignment operators
 Complex &Complex::operator=(const Complex &source)
 {
     _real = source._real;
@@ -81,69 +110,67 @@ Complex &Complex::operator=(const Complex &source)
     return *this;
 }
 
+// shorthand assignment operators
 Complex &Complex::operator+=(const Complex &source)
 {
-    _real += source._real;
-    _imaginary += source._imaginary;
-    return *this;
+    return *this = add(*this, source);
 }
 
 Complex &Complex::operator-=(const Complex &source)
 {
-    _real -= source._real;
-    _imaginary -= source._imaginary;
-    return *this;
+    return *this = subtract(*this, source);
 }
 
 Complex &Complex::operator*=(const Complex &source)
 {
-    _real *= source._real;
-    _imaginary *= source._imaginary;
-    return *this;
+    return *this = multiply(*this, source);
 }
 
 Complex &Complex::operator/=(const Complex &source)
 {
-    _real /= source._real;
-    _imaginary /= source._imaginary;
-    return *this;
+    return *this = divide(*this, source);
 }
 
+// complex conjugate
 Complex Complex::conjugate() const
 {
     return Complex(_real, -_imaginary);
 }
 
+// complex multiplicative inverse
 Complex Complex::inverse() const
 {
     return Complex(_real / (_real * _real + _imaginary * _imaginary), -_imaginary / (_real * _real + _imaginary * _imaginary));
 }
 
+// complex magnitude
 float Complex::magnitude() const
 {
     return sqrt(_real * _real + _imaginary * _imaginary);
 }
 
+// arithmetic operators
 Complex operator+(const Complex &left, const Complex &right)
 {
-    return Complex(left.getReal() + right.getReal(), left.getImaginary() + right.getImaginary());
+    return add(left, right);
 }
 
 Complex operator-(const Complex &left, const Complex &right)
 {
-    return Complex(left.getReal() - right.getReal(), left.getImaginary() - right.getImaginary());
+    return subtract(left, right);
 }
 
 Complex operator*(const Complex &left, const Complex &right)
 {
-    return Complex(left.getReal() * right.getReal(), left.getImaginary() * right.getImaginary());
+    return multiply(left, right);
 }
 
 Complex operator/(const Complex &left, const Complex &right)
 {
-    return Complex(left.getReal() / right.getReal(), left.getImaginary() / right.getImaginary());
+    return divide(left, right);
 }
 
+// comparison operators
 int operator==(const Complex &left, const Complex &right)
 {
     return (left.getReal() == right.getReal() && left.getImaginary() == right.getImaginary());

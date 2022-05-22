@@ -41,12 +41,12 @@ int main(void)
     cout << "Second complex number: ";
     cin >> b;
 
-    cout << "============================================================" << endl;
+    cout << "======================================================" << endl;
     cout << "a = " << a << endl;
     cout << "b = " << b << endl;
-    cout << "============================================================" << endl;
 
-    cout << "============================================================" << endl;
+    cout << "======================================================" << endl;
+
     c = a + b;
     cout << "c = a + b = " << c << endl;
 
@@ -58,14 +58,14 @@ int main(void)
 
     c = a / b;
     cout << "c = a / b = " << c << endl;
-    cout << "============================================================" << endl;
 
-    cout << "============================================================" << endl;
+    cout << "======================================================" << endl;
+
     c = a;
     cout << "c = a = " << c << endl;
-    cout << "============================================================" << endl;
 
-    cout << "============================================================" << endl;
+    cout << "======================================================" << endl;
+
     c += b;
 
     cout << "c += b = " << c << endl;
@@ -81,9 +81,9 @@ int main(void)
     c = a;
     c /= b;
     cout << "c /= b = " << c << endl;
-    cout << "============================================================" << endl;
 
-    cout << "============================================================" << endl;
+    cout << "======================================================" << endl;
+
     c = a;
     if (c == a)
     {
@@ -98,25 +98,24 @@ int main(void)
     {
         cout << c << " is equal to " << b << endl;
     }
-    cout << "============================================================" << endl;
 
-    cout << "============================================================" << endl;
-    cout << "Magnitude of a = " << a.magnitude() << endl;
-    cout << "Magnitude of b = " << b.magnitude() << endl;
-    cout << "Magnitude of c = " << c.magnitude() << endl;
-    cout << "============================================================" << endl;
+    cout << "======================================================" << endl;
 
-    cout << "============================================================" << endl;
-    cout << "Conjugate of a = " << a.conjugate() << endl;
-    cout << "Conjugate of b = " << b.conjugate() << endl;
-    cout << "Conjugate of c = " << c.conjugate() << endl;
-    cout << "============================================================" << endl;
+    cout << "Conjugate of " << a << " = " << a.conjugate() << endl;
+    cout << "Conjugate of " << b << " = " << b.conjugate() << endl;
+    cout << "Conjugate of " << c << " = " << c.conjugate() << endl;
 
-    cout << "============================================================" << endl;
-    cout << "Inverse of a = " << a.inverse() << endl;
-    cout << "Inverse of b = " << b.inverse() << endl;
-    cout << "Inverse of c = " << c.inverse() << endl;
-    cout << "============================================================" << endl;
+    cout << "======================================================" << endl;
+
+    cout << "Inverse of " << a << " = " << a.inverse() << endl;
+    cout << "Inverse of " << b << " = " << b.inverse() << endl;
+    cout << "Inverse of " << c << " = " << c.inverse() << endl;
+
+    cout << "======================================================" << endl;
+
+    cout << "Magnitude of " << a << " = " << a.magnitude() << endl;
+    cout << "Magnitude of " << b << " = " << b.magnitude() << endl;
+    cout << "Magnitude of " << c << " = " << c.magnitude() << endl;
 
     return 0;
 }
