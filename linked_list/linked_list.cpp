@@ -18,11 +18,11 @@ int main()
   headNode->data = 1;
   headNode->nextNode = NULL;
 
-  struct Node *tempNode = headNode;
+  Node *tempNode = headNode;
 
   for (int i = 2; i <= 20; i++)
   {
-    struct Node *newNode = new Node;
+    Node *newNode = new Node;
 
     assert(newNode != NULL);
 
@@ -33,6 +33,7 @@ int main()
     tempNode = newNode;
   }
 
+  // tempNode->nextNode = headNode;
   tempNode = headNode;
 
   while (tempNode != NULL)
@@ -46,7 +47,7 @@ int main()
 
   while (tempNode != NULL)
   {
-    struct Node *deleteNode = tempNode;
+    Node *deleteNode = tempNode;
 
     tempNode = tempNode->nextNode;
 
