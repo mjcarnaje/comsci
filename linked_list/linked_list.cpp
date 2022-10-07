@@ -1,21 +1,22 @@
 #include <iostream>
-#include <assert.h>
 
 using namespace std;
 
 struct Node
 {
   int data;
-  struct Node *nextNode;
+  Node *nextNode;
 };
 
 int main()
 {
-  struct Node *headNode = new Node;
+  int newCalled = 0;
+  int deleteCalled = 0;
 
   int COUNT = 3;
 
-  assert(headNode != NULL);
+  Node *headNode = new Node;
+  newCalled++;
 
   headNode->data = 1;
   headNode->nextNode = NULL;
@@ -25,8 +26,7 @@ int main()
   for (int i = 2; i <= COUNT; i++)
   {
     Node *newNode = new Node;
-
-    assert(newNode != NULL);
+    newCalled++;
 
     newNode->data = i;
     newNode->nextNode = headNode;
@@ -35,26 +35,34 @@ int main()
     tempNode = newNode;
   }
 
+  cout << "\nNEW CALLED: " << newCalled << " times." << endl;
+
   tempNode = headNode;
 
   for (int i = 1; i <= COUNT * COUNT + 1; i++)
   {
-    cout << tempNode->data << " ";
+    cout << tempNode->data << "(" << tempNode << ")";
+    if (i != COUNT * COUNT + 1)
+    {
+      cout << " => ";
+    }
     tempNode = tempNode->nextNode;
   }
 
-  cout << endl;
+  cout << "\n\nDELETING.." << endl;
 
   tempNode = headNode;
 
-  for (int i = 1; i <= COUNT; i++)
+  for (int i = 0; i < COUNT; i++)
   {
-    Node *tempNode2 = tempNode->nextNode;
+    Node *tempNextNode = tempNode->nextNode;
+    cout << "Deleting: " << tempNode->data << "(" << tempNode << ") ";
     delete tempNode;
-    tempNode = tempNode2;
-  }
+    deleteCalled++;
+    tempNode = tempNextNode;
+  };
 
-  cout << "DONE!" << endl;
+  cout << "\nDELETE CALLED: " << deleteCalled << " times." << endl;
 
   return 0;
 }
