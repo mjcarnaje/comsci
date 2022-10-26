@@ -87,6 +87,7 @@ public:
       curr = curr->nextPtr;
       delete temp;
     }
+    head = nullptr;
     cnt = 0;
   }
 
@@ -158,7 +159,10 @@ public:
     newlink->prevPtr = temp;
     newlink->nextPtr = temp->nextPtr;
     temp->nextPtr = newlink;
-    if (temp->nextPtr == nullptr)
+
+    curr = newlink;
+
+    if (newlink->nextPtr == nullptr)
     {
       tail = newlink;
     }
@@ -260,14 +264,13 @@ int main(void)
   {
     theList.append(i);
   }
-  /*
-      while (i < 20)
-      {
-          theList.insert(i);
 
-          ++i;
-      }
-  */
+  while (i < 20)
+  {
+    theList.insert(i);
+
+    ++i;
+  }
 
   // display the contents of the list
   cout << "Display 0-19"
