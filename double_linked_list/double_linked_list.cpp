@@ -78,20 +78,17 @@ public:
   // Empty the list
   void clear()
   {
-    DLink<E> *tempLink = this->head;
+    this->moveToStart();
 
-    while (tempLink->nextPtr != nullptr)
+    while (this->curr != nullptr)
     {
-      DLink<E> *tempNextLink = tempLink->nextPtr;
-      delete tempLink;
-      tempLink = tempNextLink;
+      DLink<E> *nextLink = this->curr->nextPtr;
+      delete this->curr;
+      this->curr = nextLink;
     }
-
-    delete tempLink;
 
     this->head = nullptr;
     this->tail = nullptr;
-    this->curr = nullptr;
     cnt = 0;
   }
 
@@ -127,16 +124,17 @@ public:
     newLink->nextPtr = nullptr;
     cnt++;
 
-    DLink<E> *tempLink = this->head;
+    DLink<E> *currLink = this->curr;
+    DLink<E> *nextLink = currLink->nextPtr;
 
-    while (tempLink != this->curr)
+    if (nextLink != nullptr)
     {
-      tempLink = tempLink->nextPtr;
+      nextLink->prevPtr = newLink;
     }
 
-    newLink->prevPtr = tempLink;
-    newLink->nextPtr = tempLink->nextPtr;
-    tempLink->nextPtr = newLink;
+    newLink->prevPtr = currLink;
+    newLink->nextPtr = nextLink;
+    currLink->nextPtr = newLink;
 
     this->curr = newLink;
 
@@ -171,27 +169,22 @@ public:
   // Remove and return the current element
   E remove()
   {
-    DLink<E> *tempLink = this->head;
+    DLink<E> *currLink = this->curr;
+    E currElement = currLink->theElement;
 
-    while (tempLink != this->curr)
-    {
-      tempLink = tempLink->nextPtr;
-    }
+    DLink<E> *prevLink = currLink->prevPtr;
+    DLink<E> *nextLink = currLink->nextPtr;
 
-    E currentElement = tempLink->theElement;
-    DLink<E> *prevDLink = tempLink->prevPtr;
-    DLink<E> *nextDLink = tempLink->nextPtr;
+    prevLink->nextPtr = nextLink;
+    nextLink->prevPtr = prevLink;
 
-    prevDLink->nextPtr = nextDLink;
-    nextDLink->prevPtr = prevDLink;
+    this->curr = nextLink;
 
-    this->curr = nextDLink;
-
-    delete tempLink;
+    delete currLink;
 
     cnt--;
 
-    return currentElement;
+    return currElement;
   }
 
   // Advance current to the previous element
@@ -230,6 +223,22 @@ public:
     }
 
     this->curr = tempLink;
+  }
+
+  void debug()
+  {
+    DLink<E> *tempLink = this->head;
+
+    while (tempLink->nextPtr != nullptr)
+    {
+      cout << endl;
+      cout << "PREV PTR: " << tempLink->prevPtr << endl;
+      cout << "CUR PTR: " << tempLink << endl;
+      cout << "CUR VALUE: " << tempLink->theElement << endl;
+      cout << "NEXT PTR: " << tempLink->nextPtr << endl;
+      cout << endl;
+      tempLink = tempLink->nextPtr;
+    }
   }
 };
 
