@@ -78,16 +78,16 @@ public:
   // Empty the list
   void clear()
   {
-    DLink<E> *tempDLink = this->head;
+    DLink<E> *tempLink = this->head;
 
-    while (tempDLink->nextPtr != nullptr)
+    while (tempLink->nextPtr != nullptr)
     {
-      DLink<E> *tempNextPtrDLink = tempDLink->nextPtr;
-      delete tempDLink;
-      tempDLink = tempNextPtrDLink;
+      DLink<E> *tempNextLink = tempLink->nextPtr;
+      delete tempLink;
+      tempLink = tempNextLink;
     }
 
-    delete tempDLink;
+    delete tempLink;
 
     this->head = nullptr;
     this->tail = nullptr;
@@ -122,73 +122,76 @@ public:
   // Insert value at current position
   void insert(const E &it)
   {
-    DLink<E> *newDLink = new DLink<E>;
-    newDLink->theElement = it;
-    newDLink->nextPtr = nullptr;
+    DLink<E> *newLink = new DLink<E>;
+    newLink->theElement = it;
+    newLink->nextPtr = nullptr;
+    cnt++;
 
-    DLink<E> *tempDLink = this->head;
+    DLink<E> *tempLink = this->head;
 
-    while (tempDLink != this->curr)
+    while (tempLink != this->curr)
     {
-      tempDLink = tempDLink->nextPtr;
+      tempLink = tempLink->nextPtr;
     }
 
-    newDLink->prevPtr = tempDLink;
-    newDLink->nextPtr = tempDLink->nextPtr;
-    tempDLink->nextPtr = newDLink;
-    this->curr = newDLink;
-    if (newDLink->nextPtr == nullptr)
+    newLink->prevPtr = tempLink;
+    newLink->nextPtr = tempLink->nextPtr;
+    tempLink->nextPtr = newLink;
+
+    this->curr = newLink;
+
+    if (newLink->nextPtr == nullptr)
     {
-      this->tail = newDLink;
+      this->tail = newLink;
     }
   }
 
   // Append value at the end of the list
   void append(const E &it)
   {
-    DLink<E> *newDLink = new DLink<E>;
+    DLink<E> *newLink = new DLink<E>;
+    newLink->theElement = it;
+    newLink->prevPtr = this->tail;
+    newLink->nextPtr = nullptr;
     cnt++;
-    newDLink->theElement = it;
-    newDLink->prevPtr = this->tail;
-    newDLink->nextPtr = nullptr;
 
     if (this->head == nullptr)
     {
-      this->head = newDLink;
-      this->tail = newDLink;
+      this->head = newLink;
+      this->tail = newLink;
       return;
     }
 
-    DLink<E> *tempDLink = this->head;
+    this->tail->nextPtr = newLink;
 
-    while (tempDLink->nextPtr != nullptr)
-    {
-      tempDLink = tempDLink->nextPtr;
-    }
-    tempDLink->nextPtr = newDLink;
-    this->tail = newDLink;
-    this->curr = newDLink;
+    this->tail = newLink;
+    this->curr = newLink;
   }
 
   // Remove and return the current element
   E remove()
   {
-    DLink<E> *tempDLink = this->head;
-    while (tempDLink != this->curr)
+    DLink<E> *tempLink = this->head;
+
+    while (tempLink != this->curr)
     {
-      tempDLink = tempDLink->nextPtr;
+      tempLink = tempLink->nextPtr;
     }
 
-    E currentData = tempDLink->theElement;
-    DLink<E> *prevDLink = tempDLink->prevPtr;
-    DLink<E> *nextDLink = tempDLink->nextPtr;
+    E currentElement = tempLink->theElement;
+    DLink<E> *prevDLink = tempLink->prevPtr;
+    DLink<E> *nextDLink = tempLink->nextPtr;
 
     prevDLink->nextPtr = nextDLink;
     nextDLink->prevPtr = prevDLink;
+
     this->curr = nextDLink;
-    delete tempDLink;
+
+    delete tempLink;
+
     cnt--;
-    return currentData;
+
+    return currentElement;
   }
 
   // Advance current to the previous element
@@ -202,11 +205,11 @@ public:
   {
     int pos = 0;
 
-    DLink<E> *tempDLink = this->head;
+    DLink<E> *tempLink = this->head;
 
-    while (tempDLink != this->curr)
+    while (tempLink != this->curr)
     {
-      tempDLink = tempDLink->nextPtr;
+      tempLink = tempLink->nextPtr;
       pos++;
     }
 
@@ -217,13 +220,16 @@ public:
   void moveToPos(int pos)
   {
     int curPos = 0;
-    DLink<E> *tempDLink = this->head;
-    while (curPos != pos)
+
+    DLink<E> *tempLink = this->head;
+
+    while (pos != curPos)
     {
-      tempDLink = tempDLink->nextPtr;
+      tempLink = tempLink->nextPtr;
       curPos++;
     }
-    this->curr = tempDLink;
+
+    this->curr = tempLink;
   }
 };
 
@@ -262,9 +268,9 @@ int main(void)
   theList.moveToEnd();
   for (i = 0; i < theList.length(); ++i)
   {
-    theList.prev();
-
     cout << theList.getValue() << " ";
+
+    theList.prev();
   }
   cout << "\n";
 
