@@ -178,13 +178,23 @@ public:
   E remove()
   {
     DLink<E> *currLink = this->curr;
+
+    if (this->curr == nullptr)
+    {
+      cout << "Error: You can't delete unknown link." << endl;
+      return 0;
+    }
+
     E currElement = currLink->theElement;
 
     DLink<E> *prevLink = currLink->prevPtr;
     DLink<E> *nextLink = currLink->nextPtr;
 
-    prevLink->nextPtr = nextLink;
-    nextLink->prevPtr = prevLink;
+    if (prevLink != nullptr)
+      prevLink->nextPtr = nextLink;
+
+    if (nextLink != nullptr)
+      nextLink->prevPtr = prevLink;
 
     this->curr = nextLink;
 
@@ -204,30 +214,28 @@ public:
   // Return position of the current element
   int currPos() const
   {
-    int curPos = 0;
+    int pos = 0;
 
     DLink<E> *tempLink = this->head;
 
     while (tempLink != this->curr)
     {
       tempLink = tempLink->nextPtr;
-      curPos++;
+      pos++;
     }
 
-    return curPos;
+    return pos;
   }
 
   // Set current to the element at the given position
   void moveToPos(int pos)
   {
-    int curPos = 0;
-
     this->moveToStart();
 
-    while (pos != curPos)
+    while (pos > 0)
     {
       this->next();
-      curPos++;
+      pos--;
     }
   }
 
