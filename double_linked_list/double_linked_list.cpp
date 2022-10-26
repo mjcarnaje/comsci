@@ -124,6 +124,14 @@ public:
     newLink->nextPtr = nullptr;
     cnt++;
 
+    if (this->head == nullptr)
+    {
+      this->head = newLink;
+      this->tail = newLink;
+      this->curr = newLink;
+      return;
+    }
+
     DLink<E> *currLink = this->curr;
     DLink<E> *nextLink = currLink->nextPtr;
 
@@ -157,11 +165,11 @@ public:
     {
       this->head = newLink;
       this->tail = newLink;
+      this->curr = newLink;
       return;
     }
 
     this->tail->nextPtr = newLink;
-
     this->tail = newLink;
     this->curr = newLink;
   }
@@ -196,17 +204,17 @@ public:
   // Return position of the current element
   int currPos() const
   {
-    int pos = 0;
+    int curPos = 0;
 
     DLink<E> *tempLink = this->head;
 
     while (tempLink != this->curr)
     {
       tempLink = tempLink->nextPtr;
-      pos++;
+      curPos++;
     }
 
-    return pos;
+    return curPos;
   }
 
   // Set current to the element at the given position
@@ -214,22 +222,20 @@ public:
   {
     int curPos = 0;
 
-    DLink<E> *tempLink = this->head;
+    this->moveToStart();
 
     while (pos != curPos)
     {
-      tempLink = tempLink->nextPtr;
+      this->next();
       curPos++;
     }
-
-    this->curr = tempLink;
   }
 
   void debug()
   {
     DLink<E> *tempLink = this->head;
 
-    while (tempLink->nextPtr != nullptr)
+    while (tempLink != nullptr)
     {
       cout << endl;
       cout << "PREV PTR: " << tempLink->prevPtr << endl;
