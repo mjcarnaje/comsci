@@ -196,6 +196,16 @@ public:
     if (nextLink != nullptr)
       nextLink->prevPtr = prevLink;
 
+    if (this->head == this->curr)
+    {
+      this->head = nextLink;
+    }
+
+    if (this->tail == this->curr)
+    {
+      this->tail = nextLink;
+    }
+
     this->curr = nextLink;
 
     delete currLink;
