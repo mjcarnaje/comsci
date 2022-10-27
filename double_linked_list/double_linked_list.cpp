@@ -57,7 +57,7 @@ public:
     this->head = nullptr;
     this->tail = nullptr;
     this->curr = nullptr;
-    cnt = 0;
+    this->cnt = 0;
   }
 
   // The copy constructor
@@ -66,7 +66,7 @@ public:
     this->head = source->head;
     this->tail = source->tail;
     this->curr = source->curr;
-    cnt = source->cnt;
+    this->cnt = source->cnt;
   }
 
   // The class destructor
@@ -89,7 +89,7 @@ public:
 
     this->head = nullptr;
     this->tail = nullptr;
-    cnt = 0;
+    this->cnt = 0;
   }
 
   // Set current to first element
@@ -122,7 +122,7 @@ public:
     DLink<E> *newLink = new DLink<E>;
     newLink->theElement = it;
     newLink->nextPtr = nullptr;
-    cnt++;
+    this->cnt++;
 
     if (this->head == nullptr)
     {
@@ -159,7 +159,7 @@ public:
     newLink->theElement = it;
     newLink->prevPtr = this->tail;
     newLink->nextPtr = nullptr;
-    cnt++;
+    this->cnt++;
 
     if (this->head == nullptr)
     {
@@ -210,7 +210,7 @@ public:
 
     delete currLink;
 
-    cnt--;
+    this->cnt--;
 
     return currElement;
   }
