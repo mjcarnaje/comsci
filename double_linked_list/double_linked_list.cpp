@@ -38,11 +38,28 @@ class DList
   DLink<E> *curr;
   int cnt;
 
-
-private: 
-  void initialize() {
-    curr = head = tail = new DLink<E>;
+private:
+  void initialize()
+  {
+    head = new DLink<E>;
+    tail = new DLink<E>;
     cnt = 0;
+    head->prevPtr = nullptr;
+    head->nextPtr = tail;
+    curr = head;
+    tail->prevPtr = head;
+    tail->nextPtr = nullptr;
+  }
+
+  void deleteLinks()
+  {
+    moveToStart();
+    while (curr != nullptr)
+    {
+      DLink<E> *nextLink = curr->nextPtr;
+      delete curr;
+      curr = nextLink;
+    }
   }
 
 public:
@@ -67,44 +84,42 @@ public:
   // The copy constructor
   DList(const DList &source)
   {
-    this->head = source->head;
-    this->tail = source->tail;
-    this->curr = source->curr;
-    this->cnt = source->cnt;
+    head = source->head;
+    tail = source->tail;
+    curr = source->curr;
+    cnt = source->cnt;
   }
 
   // The class destructor
   ~DList()
   {
-    this->clear();
+    deleteLinks();
   }
 
   // Empty the list
   void clear()
   {
-    DLink<E> *tempLink = curr->nextPtr;
-    curr->nextPtr->nextPtr->prevPtr = curr;
-    curr->nextPtr = curr->nextPtr->nextPtr;
-    delete tempLink;
+    deleteLinks();
     initialize();
   }
 
   // Set current to first element
   void moveToStart()
   {
-    curr = head;
+    curr = head->nextPtr;
   }
 
   // Set current element to end of list
   void moveToEnd()
   {
-    curr = tail;
+    curr = tail->prevPtr;
   }
 
   // Advance current to the next element
   void next()
   {
-    if (curr != tail) {
+    if (curr != tail)
+    {
       curr = curr->nextPtr;
     }
   }
@@ -113,7 +128,7 @@ public:
   E &getValue() const
   {
     assert(("No value.", curr->nextPtr != nullptr));
-    return curr->nextPtr->theElement;
+    return curr->theElement;
   }
 
   // Insert value at current position
@@ -121,12 +136,10 @@ public:
   {
     DLink<E> *newLink = new DLink<E>;
     newLink->theElement = it;
+    newLink->prevPtr = curr;
     newLink->nextPtr = curr->nextPtr;
-    newLink->prevPtr = curr->prevPtr;
-    curr = newLink;
-    if (tail == curr) {
-      tail = curr->nextPtr;
-    }   
+    curr->nextPtr->prevPtr = newLink;
+    curr->nextPtr = newLink;
     cnt++;
   }
 
@@ -137,33 +150,47 @@ public:
     newLink->theElement = it;
     newLink->prevPtr = tail->prevPtr;
     newLink->nextPtr = tail;
+    tail->prevPtr->nextPtr = newLink;
+    tail->prevPtr = newLink;
     cnt++;
   }
 
   // Remove and return the current element
   E remove()
   {
-    DLink<E> *tempLink = curr->nextPtr;
-    curr->nextPtr->nextPtr->prevPtr = curr;
-    curr->nextPtr = curr->nextPtr->nextPtr;
-    int it = tempLink->theElement;
-    delete tempLink;
-    return it;
+    assert(("You can't delete unknown link.", curr != nullptr));
+
+    E currElement = curr->theElement;
+
+    DLink<E> *prevLink = curr->prevPtr;
+    DLink<E> *nextLink = curr->nextPtr;
+
+    prevLink->nextPtr = nextLink;
+    nextLink->prevPtr = prevLink;
+
+    delete curr;
+
+    curr = nextLink;
+
+    cnt--;
+
+    return currElement;
   }
 
   // Advance current to the previous element
   void prev()
   {
-    if (curr == head) return;
+    if (curr == head)
+      return;
 
     DLink<E> *tempLink = head;
 
     while (tempLink->nextPtr != curr)
     {
-      tempLink = tempLink->nextPtr; 
+      tempLink = tempLink->nextPtr;
     }
-    
-    curr = tempLink; 
+
+    curr = tempLink;
   }
 
   // Return position of the current element
@@ -171,7 +198,7 @@ public:
   {
     int pos = 0;
 
-    DLink<E> *tempLink = head;
+    DLink<E> *tempLink = head->nextPtr;
 
     while (tempLink != curr)
     {
@@ -187,29 +214,64 @@ public:
   {
     assert(("Postion out of range.", (pos >= 0 && pos <= cnt)));
     curr = head;
-    while (pos > 0) {
+    while (pos >= 0)
+    {
       curr = curr->nextPtr;
       pos--;
     }
   }
 
-  void debug()
+  void display(bool isBackward = false)
   {
-    // for (int i = 0; i < this->length(); i++) {
-    //   cout << this->getValue() << endl;
-    //   this->next();
-    // }
+    cout << endl;
 
-    DLink<E> *tempLink = this->curr->nextPtr;
+    if (!isBackward)
+    {
+      cout << "------------- PRINTING (FORWARD) -------------" << endl;
+      moveToStart();
+    }
+    else
+    {
+      cout << "------------- PRINTING (BACKWARD) -------------" << endl;
+      moveToEnd();
+    }
 
-  
-    for (int i = 0; i < this->length(); i++) {
+    for (int i = 0; i < length(); ++i)
+    {
+      cout << getValue() << " ";
+
+      if (!isBackward)
+      {
+        next();
+      }
+      else
+      {
+        prev();
+      }
+    }
+
+    cout << endl;
+  }
+
+  void debug(bool isBackward = false)
+  {
+    if (isBackward)
+      curr = tail;
+    if (!isBackward)
+      curr = head;
+
+    while (curr != nullptr)
+    {
       cout << endl;
-      cout << "PREV PTR: " << tempLink->prevPtr << endl;
-      cout << "CUR [PTR-VALUE]: " << tempLink << " - " << tempLink->theElement << endl;
-      cout << "NEXT PTR: " << tempLink->nextPtr << endl;
+      cout << "PREV PTR: " << curr->prevPtr << endl;
+      cout << "CUR [PTR-VALUE]: " << curr << " - " << curr->theElement << endl;
+      cout << "NEXT PTR: " << curr->nextPtr << endl;
       cout << endl;
-      tempLink = tempLink->nextPtr;
+
+      if (isBackward)
+        curr = curr->prevPtr;
+      if (!isBackward)
+        curr = curr->nextPtr;
     }
   }
 };
@@ -226,52 +288,50 @@ int main(void)
   cout << "\nAdding [0-19] to the list with the append & insert function\n";
   for (i = 0; i < 10; ++i)
   {
-    theList.insert(i);
+    theList.append(i);
   }
 
-  theList.debug();
-  
-  // while (i < 20)
-  // {
-  //   theList.append(i);
-  //   ++i;
-  // }
+  while (i < 20)
+  {
+    theList.insert(i);
+    ++i;
+  }
 
-  // theList.debug();
+  theList.display();
+  theList.display(true);
 
-  // theList.display(true);
+  cout << "\n\n-------------Clearing the list-------------\n";
+  theList.clear();
+  cout << "Checking if the list is empty: " << theList.length() << " length" << endl;
+  cout << "-------------------------------------------\n";
 
-  // cout << "\n\n-------------Clearing the list-------------\n";
-  // theList.clear();
-  // cout << "Checking if the list is empty: " << theList.length() << " length" << endl;
-  // cout << "-------------------------------------------\n";
+  cout << "\nAdding new elements to the list from [100-109]\n";
+  for (i = 0; i < 10; ++i)
+  {
+    theList.append(i + 100);
+  }
 
-  // cout << "\nAdding new elements to the list from [100-109]\n";
-  // for (i = 0; i < 10; ++i)
-  // {
-  //   theList.append(i + 100);
-  // }
+  theList.display();
 
-  // theList.display();
+  cout << "\nMoving to the 5th element...\n";
+  theList.moveToPos(5);
+  cout << "Current Position: " << theList.currPos() << "\n";
 
-  // cout << "\nMoving to the 5th element...\n";
-  // theList.moveToPos(5);
-  // cout << "Current Position: " << theList.currPos() << "\n";
+  cout << "Removing current element: " << theList.remove() << "\n";
+  cout << "Removing current element: " << theList.remove() << "\n";
 
-  // cout << "Removing current element: " << theList.remove() << "\n";
-  // cout << "Removing current element: " << theList.remove() << "\n";
+  theList.display();
 
-  // theList.display();
+  theList.moveToStart();
+  cout << "\nRemove the header link: " << theList.remove() << "\n";
 
-  // theList.moveToStart();
-  // cout << "\nRemove the head element: " << theList.remove() << "\n";
+  theList.display();
 
-  // theList.display();
+  theList.moveToEnd();
+  cout << "\nRemove the tailer link: " << theList.remove() << "\n";
 
-  // theList.moveToEnd();
-  // cout << "\nRemove the tail element: " << theList.remove() << "\n";
+  theList.display();
 
-  // theList.display();
-
+  cout << "\nThank you sir Haroun!";
   return 0;
 }
