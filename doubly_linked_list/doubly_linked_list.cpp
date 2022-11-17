@@ -85,10 +85,17 @@ public:
   // The copy constructor
   DList(const DList &source)
   {
-    head = source->head;
-    tail = source->tail;
-    curr = source->curr;
-    cnt = source->cnt;
+    init();
+
+    DLink<E> *temp = source.head;
+
+    while (temp->nextPtr != source.tail)
+    {
+      append(temp->nextPtr->theElement);
+      temp = temp->nextPtr;
+      if (temp == source.curr)
+        curr = temp;
+    }
   }
 
   // The class destructor
@@ -202,25 +209,38 @@ public:
 
   void debug()
   {
-    curr = head;
+    cout << endl;
 
-    while (curr != nullptr)
+    DLink<E> *temp = head;
+
+    cout << "CURRENT POINTER: ";
+    if (temp == head)
+      cout << "HEAD" << endl;
+    else if (temp == tail)
+      cout << "TAIL" << endl;
+    else
+      cout << endl;
+
+    int index = 0;
+
+    while (temp != nullptr)
     {
       cout << endl;
       cout << "|---------------------------------------------|" << endl;
-      cout << "| Index: " << currPos() << endl;
-      cout << "| PrevPtr: " << curr->prevPtr << endl;
-      cout << "| [Ptr-Value]: " << curr << " - ";
-      if (curr == head)
+      cout << "| INDEX: " << index << endl;
+      cout << "| PREVIOUS POINTER: " << temp->prevPtr << endl;
+      cout << "| [POINTER-VALUE]: " << temp << " - ";
+      if (temp == head)
         cout << "HEAD" << endl;
-      else if (curr == tail)
+      else if (temp == tail)
         cout << "TAIL" << endl;
       else
-        cout << curr->theElement << endl;
-      cout << "| NextPtr: " << curr->nextPtr << endl;
+        cout << temp->theElement << endl;
+      cout << "| NEXT POINTER: " << temp->nextPtr << endl;
       cout << "|---------------------------------------------|" << endl;
       cout << endl;
-      curr = curr->nextPtr;
+      temp = temp->nextPtr;
+      index++;
     }
   }
 };
@@ -272,6 +292,8 @@ int main(void)
   {
     theList.append(i + 100);
   }
+
+  theList.debug();
 
   // display the contents of the list
   theList.moveToStart();
