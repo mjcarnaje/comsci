@@ -54,12 +54,10 @@ private:
 
   void emptyList()
   {
-    curr = head;
-    while (curr != nullptr)
+    moveToStart();
+    while (curr->nextPtr != tail)
     {
-      DLink<E> *temp = curr;
-      curr = curr->nextPtr;
-      delete temp;
+      remove();
     }
   }
 
@@ -92,9 +90,9 @@ public:
     while (temp->nextPtr != source.tail)
     {
       append(temp->nextPtr->theElement);
-      temp = temp->nextPtr;
       if (temp == source.curr)
-        curr = temp;
+        curr = tail->prevPtr;
+      temp = temp->nextPtr;
     }
   }
 
@@ -102,13 +100,14 @@ public:
   ~DList()
   {
     emptyList();
+    delete head;
+    delete tail;
   }
 
   // Empty the list
   void clear()
   {
     emptyList();
-    init();
   }
 
   // Set current to first element
@@ -120,14 +119,13 @@ public:
   // Set current element to end of list
   void moveToEnd()
   {
-    // not sure if this is correct
     curr = tail->prevPtr;
   }
 
   // Advance current to the next element
   void next()
   {
-    if (curr == tail)
+    if (curr->nextPtr == tail)
       return;
     curr = curr->nextPtr;
   }
@@ -135,6 +133,8 @@ public:
   // Return the current element
   E &getValue() const
   {
+    assert(curr != tail);
+    assert(curr->nextPtr != tail);
     return curr->nextPtr->theElement;
   }
 
@@ -165,18 +165,15 @@ public:
   // Remove and return the current element
   E remove()
   {
-    if (curr->nextPtr == tail)
-      return '\0';
+    assert(curr != tail);
+    assert(curr->nextPtr != tail);
 
-    E it = curr->nextPtr->theElement;
-
-    curr->nextPtr = curr->nextPtr->nextPtr;
-    curr->nextPtr->nextPtr->prevPtr = curr;
-
-    delete curr->nextPtr;
-
+    DLink<E> *temp = curr->nextPtr;
+    E it = temp->theElement;
+    curr->nextPtr = temp->nextPtr;
+    temp->nextPtr->prevPtr = curr;
+    delete temp;
     cnt--;
-
     return it;
   }
 
@@ -205,33 +202,6 @@ public:
     curr = head;
     for (int i = 0; i < pos; i++)
       curr = curr->nextPtr;
-  }
-
-  void debug()
-  {
-    cout << endl;
-
-    DLink<E> *temp = head;
-
-    cout << "CURRENT POINTER: ";
-    cout << (temp == head)  ?  "HEAD" : (temp == tail) ? "TAIL" : to_string(temp->theElement) << endl;
-
-    int index = 0;
-
-    while (temp != nullptr)
-    {
-      cout << endl;
-      cout << "|---------------------------------------------|" << endl;
-      cout << "| INDEX: " << index << endl;
-      cout << "| PREVIOUS POINTER: " << temp->prevPtr << endl;
-      cout << "| [POINTER-VALUE]: " << temp << " - ";
-      cout << (temp == head)  ?  "HEAD" : (temp == tail) ? "TAIL" : to_string(temp->theElement) << endl;
-      cout << "| NEXT POINTER: " << temp->nextPtr << endl;
-      cout << "|---------------------------------------------|" << endl;
-      cout << endl;
-      temp = temp->nextPtr;
-      index++;
-    }
   }
 };
 
@@ -300,16 +270,6 @@ int main(void)
   theList.remove();
   theList.remove();
 
-  theList.moveToStart();
-  for (i = 0; i < theList.length(); ++i)
-  {
-    cout << theList.getValue() << " ";
-
-    theList.next();
-  }
-  cout << "\n";
-
-  // display the contents of the list
   theList.moveToStart();
   for (i = 0; i < theList.length(); ++i)
   {
