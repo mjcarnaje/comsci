@@ -214,12 +214,7 @@ public:
     DLink<E> *temp = head;
 
     cout << "CURRENT POINTER: ";
-    if (temp == head)
-      cout << "HEAD" << endl;
-    else if (temp == tail)
-      cout << "TAIL" << endl;
-    else
-      cout << endl;
+    cout << (temp == head)  ?  "HEAD" : (temp == tail) ? "TAIL" : to_string(temp->theElement) << endl;
 
     int index = 0;
 
@@ -230,12 +225,7 @@ public:
       cout << "| INDEX: " << index << endl;
       cout << "| PREVIOUS POINTER: " << temp->prevPtr << endl;
       cout << "| [POINTER-VALUE]: " << temp << " - ";
-      if (temp == head)
-        cout << "HEAD" << endl;
-      else if (temp == tail)
-        cout << "TAIL" << endl;
-      else
-        cout << temp->theElement << endl;
+      cout << (temp == head)  ?  "HEAD" : (temp == tail) ? "TAIL" : to_string(temp->theElement) << endl;
       cout << "| NEXT POINTER: " << temp->nextPtr << endl;
       cout << "|---------------------------------------------|" << endl;
       cout << endl;
@@ -293,8 +283,6 @@ int main(void)
     theList.append(i + 100);
   }
 
-  theList.debug();
-
   // display the contents of the list
   theList.moveToStart();
   for (i = 0; i < theList.length(); ++i)
@@ -312,7 +300,18 @@ int main(void)
   theList.remove();
   theList.remove();
 
+  theList.moveToStart();
+  for (i = 0; i < theList.length(); ++i)
+  {
+    cout << theList.getValue() << " ";
+
+    theList.next();
+  }
+  cout << "\n";
+
   // display the contents of the list
+  theList.moveToEnd();
+  theList.insert(1000);
   theList.moveToStart();
   for (i = 0; i < theList.length(); ++i)
   {
