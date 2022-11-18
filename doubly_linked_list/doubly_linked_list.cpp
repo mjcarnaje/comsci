@@ -310,8 +310,6 @@ int main(void)
   cout << "\n";
 
   // display the contents of the list
-  theList.moveToEnd();
-  theList.insert(1000);
   theList.moveToStart();
   for (i = 0; i < theList.length(); ++i)
   {
