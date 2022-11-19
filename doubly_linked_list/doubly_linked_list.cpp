@@ -36,31 +36,6 @@ class DList
   DLink<E> *curr;
   int cnt;
 
-private:
-  void init()
-  {
-    head = new DLink<E>;
-    tail = new DLink<E>;
-
-    head->prevPtr = nullptr;
-    head->nextPtr = tail;
-
-    tail->prevPtr = head;
-    tail->nextPtr = nullptr;
-
-    curr = head;
-    cnt = 0;
-  }
-
-  void emptyList()
-  {
-    moveToStart();
-    while (curr->nextPtr != tail)
-    {
-      remove();
-    }
-  }
-
 public:
   // Return the size of the list
   int length() const
@@ -77,13 +52,33 @@ public:
   // The default constructor
   DList()
   {
-    init();
+    head = new DLink<E>;
+    tail = new DLink<E>;
+
+    head->prevPtr = nullptr;
+    head->nextPtr = tail;
+
+    tail->prevPtr = head;
+    tail->nextPtr = nullptr;
+
+    curr = head;
+    cnt = 0;
   }
 
   // The copy constructor
   DList(const DList &source)
   {
-    init();
+    head = new DLink<E>;
+    tail = new DLink<E>;
+
+    head->prevPtr = nullptr;
+    head->nextPtr = tail;
+
+    tail->prevPtr = head;
+    tail->nextPtr = nullptr;
+
+    curr = head;
+    cnt = 0;
 
     DLink<E> *temp = source.head;
 
@@ -99,7 +94,7 @@ public:
   // The class destructor
   ~DList()
   {
-    emptyList();
+    clear();
     delete head;
     delete tail;
   }
@@ -107,7 +102,11 @@ public:
   // Empty the list
   void clear()
   {
-    emptyList();
+    moveToStart();
+    while (curr->nextPtr != tail)
+    {
+      remove();
+    }
   }
 
   // Set current to first element
