@@ -86,7 +86,7 @@ public:
     {
       append(temp->nextPtr->theElement);
       if (temp == source.curr)
-        curr = tail->prevPtr;
+        curr = tail->prevPtr->prevPtr;
       temp = temp->nextPtr;
     }
   }
