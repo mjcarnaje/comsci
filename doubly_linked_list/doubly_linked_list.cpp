@@ -53,7 +53,9 @@ public:
   DList()
   {
     head = new DLink<E>;
+    assert(head != nullptr);
     tail = new DLink<E>;
+    assert(tail != nullptr);
 
     head->prevPtr = nullptr;
     head->nextPtr = tail;
@@ -69,7 +71,9 @@ public:
   DList(const DList &source)
   {
     head = new DLink<E>;
+    assert(head != nullptr);
     tail = new DLink<E>;
+    assert(tail != nullptr);
 
     head->prevPtr = nullptr;
     head->nextPtr = tail;
@@ -132,8 +136,7 @@ public:
   // Return the current element
   E &getValue() const
   {
-    assert(curr != tail);
-    assert(curr->nextPtr != tail);
+    assert(curr != tail && curr->nextPtr != tail);
     return curr->nextPtr->theElement;
   }
 
@@ -141,6 +144,7 @@ public:
   void insert(const E &it)
   {
     DLink<E> *newLink = new DLink<E>;
+    assert(newLink != nullptr);
     newLink->theElement = it;
     newLink->prevPtr = curr;
     newLink->nextPtr = curr->nextPtr;
@@ -153,6 +157,7 @@ public:
   void append(const E &it)
   {
     DLink<E> *newLink = new DLink<E>;
+    assert(newLink != nullptr);
     newLink->theElement = it;
     newLink->prevPtr = tail->prevPtr;
     newLink->nextPtr = tail;
@@ -164,9 +169,7 @@ public:
   // Remove and return the current element
   E remove()
   {
-    assert(curr != tail);
-    assert(curr->nextPtr != tail);
-
+    assert(curr != tail && curr->nextPtr != tail);
     DLink<E> *temp = curr->nextPtr;
     E it = temp->theElement;
     curr->nextPtr = temp->nextPtr;
