@@ -10,20 +10,12 @@ struct Node
 
 int main()
 {
-  int newCalled = 0;
-  int deleteCalled = 0;
+  int newCalled = 0, deleteCalled = 0, nodeCount = 3;
 
-  int COUNT = 3;
+  Node *headNode = NULL;
+  Node *tempNode = NULL;
 
-  Node *headNode = new Node;
-  newCalled++;
-
-  headNode->data = 1;
-  headNode->nextNode = NULL;
-
-  Node *tempNode = headNode;
-
-  for (int i = 2; i <= COUNT; i++)
+  for (int i = 0; i < nodeCount; i++)
   {
     Node *newNode = new Node;
     newCalled++;
@@ -31,7 +23,12 @@ int main()
     newNode->data = i;
     newNode->nextNode = headNode;
 
-    tempNode->nextNode = newNode;
+    if (headNode == NULL)
+      headNode = newNode;
+
+    if (tempNode != NULL)
+      tempNode->nextNode = newNode;
+
     tempNode = newNode;
   }
 
@@ -39,13 +36,13 @@ int main()
 
   tempNode = headNode;
 
-  for (int i = 1; i <= COUNT * COUNT + 1; i++)
+  for (int i = 1; i <= nodeCount * nodeCount + 1; i++)
   {
     cout << tempNode->data << "(" << tempNode << ")";
-    if (i != COUNT * COUNT + 1)
-    {
+
+    if (i != nodeCount * nodeCount + 1)
       cout << " => ";
-    }
+
     tempNode = tempNode->nextNode;
   }
 
@@ -53,7 +50,7 @@ int main()
 
   tempNode = headNode;
 
-  for (int i = 0; i < COUNT; i++)
+  for (int i = 0; i < nodeCount; i++)
   {
     Node *tempNextNode = tempNode->nextNode;
     cout << "Deleting: " << tempNode->data << "(" << tempNode << ") ";
