@@ -279,8 +279,7 @@ BinNode<T> *BSTree<T>::copy(BinNode<T> *root)
     // recursively create a copy of the subtree
     BinNode<T> *newLeft = copy(root->left);
     BinNode<T> *newRight = copy(root->right);
-    BinNode<T> *newNode = makeBinNode<T>(root->element, newLeft,
-                                         newRight);
+    BinNode<T> *newNode = makeBinNode<T>(root->element, newLeft, newRight);
 
     return newNode;
 }
@@ -320,42 +319,136 @@ discarded memory must be properly deallocated.
 template <class T>
 int BSTree<T>::includes(T &val) const
 {
-    // to implement
+    BinNode<T> *currentNode = root;
+
+    while (currentNode != NULL)
+    {
+        if (val == currentNode->element)
+            return 1;
+        if (val < currentNode->element)
+            currentNode = currentNode->left;
+        else
+            currentNode = currentNode->right;
+    }
+
+    return 0;
 }
 
 // implementation of method that inserts a value into the tree
 template <class T>
 void BSTree<T>::insert(T &val)
 {
-    // to implement
+    BinNode<T> *parentNode = NULL;
+    BinNode<T> *currentNode = root;
+
+    while (currentNode != NULL)
+    {
+        parentNode = currentNode;
+
+        if (val < currentNode->element)
+            currentNode = currentNode->left;
+        else
+            currentNode = currentNode->right;
+    }
+
+    if (parentNode == NULL)
+        root = makeBinNode<T>(val);
+    else if (val < parentNode->element)
+        parentNode->left = makeBinNode<T>(val);
+    else
+        parentNode->right = makeBinNode<T>(val);
+
+    nodecount++;
 }
 
 // implementation of method that removes a value from the tree
 template <class T>
 T BSTree<T>::remove(T &val)
 {
-    // to implement
+
+    BinNode<T> *parentNode = NULL;
+    BinNode<T> *currentNode = root;
+
+    while (currentNode != NULL)
+    {
+        parentNode = currentNode;
+
+        if (val == currentNode->element)
+            break;
+
+        if (val < currentNode->element)
+            currentNode = currentNode->left;
+        else
+            currentNode = currentNode->right;
+    }
+
+    if (currentNode == NULL)
+    {
+        cout << "Nothing to remove.";
+        return (T)NULL;
+    }
+
+    if (parentNode == NULL)
+        root = removeTop(currentNode);
+    else if (val < parentNode->element)
+        parentNode->left = removeTop(currentNode);
+    else
+        parentNode->right = removeTop(currentNode);
+
+    nodecount--;
+
+    return currentNode->element;
 }
 
 // implementation of the inorder traversal function
 template <class T>
 void inorder(BinNode<T> *root)
 {
-    // to implement
+    if (!root)
+        return;
+
+    inorder(root->left);
+
+    visit(root);
+
+    inorder(root->right);
 }
 
 // implementation of the postorder traversal function
 template <class T>
 void postorder(BinNode<T> *root)
 {
-    // to implement
+    if (!root)
+        return;
+
+    postorder(root->left);
+
+    postorder(root->right);
+
+    visit(root);
 }
 
 // implementation of the levelorder traversal function
 template <class T>
 void levelorder(BinNode<T> *root)
 {
-    // to implement
+    if (!root)
+        return;
+
+    queue<BinNode<T> *> q;
+
+    q.push(root);
+
+    while (!q.empty())
+    {
+        BinNode<T> *currentNode = q.front();
+        q.pop();
+        visit(currentNode);
+        if (currentNode->left)
+            q.push(currentNode->left);
+        if (currentNode->right)
+            q.push(currentNode->right);
+    }
 }
 
 /*
@@ -418,8 +511,7 @@ int main(void)
 
     for (i = 0; i < 5; ++i)
     {
-        cout << "removed " << treeCopy->removeAny() << " from copy..."
-             << endl;
+        cout << "removed " << treeCopy->removeAny() << " from copy..." << endl;
     }
 
     cout << "the copy tree size is: " << treeCopy->size() << endl;
