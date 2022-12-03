@@ -365,27 +365,23 @@ void BSTree<T>::insert(T &val)
 template <class T>
 T BSTree<T>::remove(T &val)
 {
+    if (root == NULL)
+        return root->element;
 
     BinNode<T> *parentNode = NULL;
     BinNode<T> *currentNode = root;
 
     while (currentNode != NULL)
     {
-        parentNode = currentNode;
-
         if (val == currentNode->element)
             break;
+
+        parentNode = currentNode;
 
         if (val < currentNode->element)
             currentNode = currentNode->left;
         else
             currentNode = currentNode->right;
-    }
-
-    if (currentNode == NULL)
-    {
-        cout << "Nothing to remove.";
-        return (T)NULL;
     }
 
     if (parentNode == NULL)
@@ -404,7 +400,7 @@ T BSTree<T>::remove(T &val)
 template <class T>
 void inorder(BinNode<T> *root)
 {
-    if (!root)
+    if (root == NULL)
         return;
 
     inorder(root->left);
@@ -418,7 +414,7 @@ void inorder(BinNode<T> *root)
 template <class T>
 void postorder(BinNode<T> *root)
 {
-    if (!root)
+    if (root == NULL)
         return;
 
     postorder(root->left);
@@ -432,7 +428,7 @@ void postorder(BinNode<T> *root)
 template <class T>
 void levelorder(BinNode<T> *root)
 {
-    if (!root)
+    if (root == NULL)
         return;
 
     queue<BinNode<T> *> q;
