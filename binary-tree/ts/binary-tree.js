@@ -94,7 +94,86 @@ var BinarySearchTree = /** @class */ (function () {
         }
         this.nodeCount++;
     };
+    BinarySearchTree.prototype.includes = function (value) {
+        var currentNode = this.root;
+        while (currentNode) {
+            if (value === currentNode.value) {
+                return true;
+            }
+            if (value < currentNode.value) {
+                currentNode = currentNode.left;
+            }
+            else {
+                currentNode = currentNode.right;
+            }
+        }
+        return false;
+    };
+    BinarySearchTree.prototype.removeTop = function (node) {
+        var leftNode = node.left;
+        var rightNode = node.right;
+        if (!leftNode && !rightNode) {
+            return null;
+        }
+        if (!leftNode) {
+            return rightNode;
+        }
+        if (!rightNode) {
+            return leftNode;
+        }
+        if (!rightNode.left) {
+            rightNode.left = leftNode;
+            return rightNode;
+        }
+        var leftMost = rightNode.left;
+        var leftMostParent = rightNode;
+        while (leftMost.left) {
+            leftMostParent = leftMost;
+            leftMost = leftMost.left;
+        }
+        leftMostParent.left = leftMost.right;
+        leftMost.left = leftNode;
+        leftMost.right = rightNode;
+        return leftMost;
+    };
+    BinarySearchTree.prototype.remove = function (value) {
+        if (!this.root) {
+            return;
+        }
+        var parentNode = null;
+        var currentNode = this.root;
+        // Find the node to remove
+        while (currentNode) {
+            if (value === currentNode.value) {
+                break;
+            }
+            parentNode = currentNode;
+            if (value < currentNode.value) {
+                currentNode = currentNode.left;
+            }
+            else {
+                currentNode = currentNode.right;
+            }
+        }
+        if (!currentNode) {
+            return;
+        }
+        if (!parentNode) {
+            this.root = this.removeTop(currentNode);
+        }
+        else {
+            if (parentNode.value > currentNode.value) {
+                parentNode.left = this.removeTop(currentNode);
+            }
+            else {
+                parentNode.right = this.removeTop(currentNode);
+            }
+        }
+        this.nodeCount--;
+        return;
+    };
     BinarySearchTree.prototype.display = function () {
+        console.log("====================================");
         console.log("Pre Order Traversal");
         preOrderTraversal(this.root);
         console.log("In Order Traversal");
@@ -103,12 +182,15 @@ var BinarySearchTree = /** @class */ (function () {
         postOrderTraversal(this.root);
         console.log("Level Order Traversal");
         levelOrderTraversal(this.root);
+        console.log("====================================");
     };
     return BinarySearchTree;
 }());
 var BST = new BinarySearchTree();
-var nums = [10, 15, 6, 11, 20, 3, 8, 0];
+var nums = [3, 2, 5, 4, 6];
 for (var i = 0; i < nums.length; i++) {
     BST.insert(nums[i]);
 }
+BST.display();
+BST.remove(5);
 BST.display();

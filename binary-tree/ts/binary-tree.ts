@@ -147,7 +147,87 @@ class BinarySearchTree<T> {
     return false;
   }
 
+  removeTop(node: TreeNode<T>): TreeNode<T> | null {
+    const leftNode = node.left;
+    const rightNode = node.right;
+
+    if (!leftNode && !rightNode) {
+      return null;
+    }
+
+    if (!leftNode) {
+      return rightNode;
+    }
+
+    if (!rightNode) {
+      return leftNode;
+    }
+
+    if (!rightNode.left) {
+      rightNode.left = leftNode;
+      return rightNode;
+    }
+
+    let leftMost = rightNode.left;
+    let leftMostParent = rightNode;
+
+    while (leftMost.left) {
+      leftMostParent = leftMost;
+      leftMost = leftMost.left;
+    }
+
+    leftMostParent.left = leftMost.right;
+    leftMost.left = leftNode;
+    leftMost.right = rightNode;
+
+    return leftMost;
+  }
+
+  remove(value: T): void {
+    if (!this.root) {
+      return;
+    }
+
+    let parentNode: TreeNode<T> | null = null;
+    let currentNode: TreeNode<T> | null = this.root;
+
+    // Find the node to remove
+    while (currentNode) {
+      if (value === currentNode.value) {
+        break;
+      }
+
+      parentNode = currentNode;
+
+      if (value < currentNode.value) {
+        currentNode = currentNode.left;
+      } else {
+        currentNode = currentNode.right;
+      }
+    }
+
+    if (!currentNode) {
+      return;
+    }
+
+    if (!parentNode) {
+      this.root = this.removeTop(currentNode);
+    } else {
+      if (parentNode.value > currentNode.value) {
+        parentNode.left = this.removeTop(currentNode);
+      } else {
+        parentNode.right = this.removeTop(currentNode);
+      }
+    }
+
+    this.nodeCount--;
+
+    return;
+  }
+
   display(): void {
+    console.log("====================================");
+
     console.log("Pre Order Traversal");
     preOrderTraversal(this.root);
 
@@ -159,15 +239,21 @@ class BinarySearchTree<T> {
 
     console.log("Level Order Traversal");
     levelOrderTraversal(this.root);
+
+    console.log("====================================");
   }
 }
 
 const BST = new BinarySearchTree();
 
-const nums = [10, 15, 6, 11, 20, 3, 8, 0];
+const nums = [3, 2, 5, 4, 6];
 
 for (let i = 0; i < nums.length; i++) {
   BST.insert(nums[i]);
 }
+
+BST.display();
+
+BST.remove(5);
 
 BST.display();
