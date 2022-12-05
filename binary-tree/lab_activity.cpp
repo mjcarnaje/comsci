@@ -325,7 +325,7 @@ int BSTree<T>::includes(T &val) const
     {
         if (val == currentNode->element)
             return 1;
-        if (val < currentNode->element)
+        if (val <= currentNode->element)
             currentNode = currentNode->left;
         else
             currentNode = currentNode->right;
@@ -345,7 +345,7 @@ void BSTree<T>::insert(T &val)
     {
         parentNode = currentNode;
 
-        if (val < currentNode->element)
+        if (val <= currentNode->element)
             currentNode = currentNode->left;
         else
             currentNode = currentNode->right;
@@ -353,7 +353,7 @@ void BSTree<T>::insert(T &val)
 
     if (parentNode == NULL)
         root = makeBinNode<T>(val);
-    else if (val < parentNode->element)
+    else if (val <= parentNode->element)
         parentNode->left = makeBinNode<T>(val);
     else
         parentNode->right = makeBinNode<T>(val);
@@ -378,7 +378,7 @@ T BSTree<T>::remove(T &val)
 
         parentNode = currentNode;
 
-        if (val < currentNode->element)
+        if (val <= currentNode->element)
             currentNode = currentNode->left;
         else
             currentNode = currentNode->right;
@@ -386,14 +386,18 @@ T BSTree<T>::remove(T &val)
 
     if (parentNode == NULL)
         root = removeTop(currentNode);
-    else if (val < parentNode->element)
+    else if (val <= parentNode->element)
         parentNode->left = removeTop(currentNode);
     else
         parentNode->right = removeTop(currentNode);
 
+    T element = currentNode->element;
+
+    delete currentNode;
+
     nodecount--;
 
-    return currentNode->element;
+    return element;
 }
 
 // implementation of the inorder traversal function
