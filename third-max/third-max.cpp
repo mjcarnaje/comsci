@@ -1,8 +1,9 @@
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
-#define NEGATIVE_INFINITY (unsigned)!((int)0);
+const int NEGATIVE_INFINITY = -numeric_limits<int>::infinity();
 
 // ====== UTIL ====== //
 int getMaxNumIndex(int arr[], int size)
@@ -89,6 +90,8 @@ int getThirdMax2(int arr[], int size)
 int getThirdMax3(int arr[], int size)
 {
   bubbleSort(arr, size);
+  if (size < 3)
+    return arr[0];
   return arr[size - 3];
 }
 
