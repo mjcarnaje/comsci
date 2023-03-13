@@ -227,17 +227,13 @@ void copyArr(int arr1[], int arr2[], int size)
 
 int main()
 {
+  cout << "Enter the size of the array: ";
+  cin >> arraySize;
 
-  int arraySize = 100;
-  int numIterations = 10;
+  cout << "Enter the number of iterations: ";
+  cin >> numIterations;
 
-  // cout << "Enter the size of the array: ";
-  // cin >> arraySize;
-
-  // cout << "Enter the number of iterations: ";
-  // cin >> numIterations;
-
-  // cout << "== Running " << numIterations << " iterations for each method ==" << endl;
+  cout << "== Running " << numIterations << " iterations for each method ==" << endl;
 
   int originalArr[arraySize];
   genIntArr(originalArr, arraySize);
