@@ -13,13 +13,17 @@ public:
   int n;
   int *orig;
   int *arr;
+  string name;
 
-  SortingAlgorithm(int arr[], int n)
+  SortingAlgorithm(int arr[], int n, string name)
   {
     this->n = n;
     this->orig = new int[n];
     this->arr = new int[n];
+    this->name = name;
   }
+
+  virtual void sort() = 0;
 
   void initArray()
   {
@@ -29,9 +33,10 @@ public:
     }
   }
 
-  virtual void sort() = 0;
-
-  virtual void printAverageRunTime() = 0;
+  void printAverageRunTime(int numIterations)
+  {
+    cout << "Average Run Time of " << this->name << ": " << this->getAverageRunTime(numIterations) << " nanoseconds" << endl;
+  };
 
   double getAverageRunTime(int numIterations)
   {
@@ -48,13 +53,14 @@ public:
 protected:
   bool isSorted()
   {
-    for (int i = 0; i < this->n; ++i)
+    for (int i = 0; i < this->n - 1; i++)
     {
-      if (this->arr[i] < this->arr[i - 1])
+      if (this->arr[i] > this->arr[i + 1])
       {
         return false;
       }
     }
+
     return true;
   }
 
@@ -78,7 +84,7 @@ protected:
 class FirstMethod : public SortingAlgorithm
 {
 public:
-  FirstMethod(int arr[], int n) : SortingAlgorithm(arr, n)
+  FirstMethod(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
   {
   }
 
@@ -107,17 +113,12 @@ public:
       }
     }
   };
-
-  void printAverageRunTime()
-  {
-    cout << "Average Run Time of First Method: " << this->getAverageRunTime(10) << " nanoseconds" << endl;
-  };
 };
 
 class SecondMethod : public SortingAlgorithm
 {
 public:
-  SecondMethod(int arr[], int n) : SortingAlgorithm(arr, n)
+  SecondMethod(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
   {
   }
 
@@ -128,11 +129,6 @@ public:
     int secondMaxIdx = this->getMaxNumIndex(this->arr, this->n);
     this->removeMaxNum(this->arr, this->n, secondMaxIdx);
     int thirdMaxIdx = this->getMaxNumIndex(this->arr, this->n);
-  };
-
-  void printAverageRunTime()
-  {
-    cout << "Average Run Time of Second Method: " << this->getAverageRunTime(10) << " nanoseconds" << endl;
   };
 
 private:
@@ -165,22 +161,17 @@ private:
 class ThirdMethod : public SortingAlgorithm
 {
 public:
-  ThirdMethod(int arr[], int n) : SortingAlgorithm(arr, n)
+  ThirdMethod(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
   {
   }
 
   void sort()
   {
     int thirdMax;
-    bubbleSort(this->arr, this->n);
+    insertionSort(this->arr, this->n);
     if (this->n < 3)
       thirdMax = this->arr[0];
     thirdMax = this->arr[this->n - 3];
-  };
-
-  void printAverageRunTime()
-  {
-    cout << "Average Run Time of Third Method: " << this->getAverageRunTime(10) << " nanoseconds" << endl;
   };
 
 private:
@@ -199,30 +190,75 @@ private:
       }
     }
   }
+
+  void insertionSort(int arr[], int size)
+  {
+    for (int i = 1; i < size; i++)
+    {
+      int key = arr[i];
+      int j = i - 1;
+
+      while (j >= 0 && arr[j] > key)
+      {
+        arr[j + 1] = arr[j];
+        j--;
+      }
+
+      arr[j + 1] = key;
+    }
+  }
 };
 
-int *generateRandomArray(int n)
+void genIntArr(int arr[], int size)
 {
-  int *arr = new int[n];
-  for (int i = 0; i < n; i++)
+  for (int i = 0; i < size; i++)
   {
-    arr[i] = rand() % n;
+    arr[i] = rand() % 1000;
   }
-  return arr;
+}
+
+void copyArr(int arr1[], int arr2[], int size)
+{
+  for (int i = 0; i < size; i++)
+  {
+    arr2[i] = arr1[i];
+  }
 }
 
 int main()
 {
-  int n = 100000;
 
-  int *arr = generateRandomArray(n);
+  int arraySize = 100;
+  int numIterations = 10;
 
-  FirstMethod firstMethod(arr, n);
-  firstMethod.printAverageRunTime();
+  // cout << "Enter the size of the array: ";
+  // cin >> arraySize;
 
-  SecondMethod secondMethod(arr, n);
-  secondMethod.printAverageRunTime();
+  // cout << "Enter the number of iterations: ";
+  // cin >> numIterations;
 
-  ThirdMethod thirdMethod(arr, n);
-  thirdMethod.printAverageRunTime();
+  // cout << "== Running " << numIterations << " iterations for each method ==" << endl;
+
+  int originalArr[arraySize];
+  genIntArr(originalArr, arraySize);
+
+  int arr1[arraySize];
+  copyArr(originalArr, arr1, arraySize);
+
+  FirstMethod firstMethod(arr1, arraySize, "First Method");
+  firstMethod.printAverageRunTime(numIterations);
+
+  int arr2[arraySize];
+  copyArr(originalArr, arr2, arraySize);
+
+  SecondMethod secondMethod(arr2, arraySize, "Second Method");
+  secondMethod.printAverageRunTime(numIterations);
+
+  int arr3[arraySize];
+  copyArr(originalArr, arr3, arraySize);
+
+  ThirdMethod thirdMethod(arr3, arraySize, "Third Method");
+  thirdMethod.printAverageRunTime(numIterations);
+
+  return 0;
 }
