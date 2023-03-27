@@ -248,41 +248,54 @@ void genIntArr(int arr[], int size)
   }
 }
 
-void copyArr(int arr1[], int arr2[], int size)
-{
-  for (int i = 0; i < size; i++)
-  {
-    arr2[i] = arr1[i];
-  }
-}
-
 int main()
 {
   int arraySize, numIterations;
 
   cout << "Enter the size of the array: ";
   cin >> arraySize;
-
   cout << "Enter the number of iterations: ";
   cin >> numIterations;
 
-  cout << "== Running " << numIterations << " iterations for each method ==" << endl;
+  cout << "Choose a sorting method:" << endl;
+  cout << "1. Shell Sort" << endl;
+  cout << "2. Merge Sort" << endl;
+  cout << "3. Heap Sort" << endl;
+
+  cout << "Enter your choice: ";
+
+  int choice;
+  cin >> choice;
 
   int arr[arraySize];
-  int arr2[arraySize];
-  int arr3[arraySize];
-
   genIntArr(arr, arraySize);
-  copyArr(arr, arr2, arraySize);
-  copyArr(arr, arr3, arraySize);
 
-  ShellSort shellSort(arr, arraySize, "Shell Sort");
-  MergeSort mergeSort(arr2, arraySize, "Merge Sort");
-  HeapSort heapSort(arr3, arraySize, "Heap Sort");
-
-  shellSort.printAverageRunTime(numIterations);
-  mergeSort.printAverageRunTime(numIterations);
-  heapSort.printAverageRunTime(numIterations);
+  switch (choice)
+  {
+  case 1:
+  {
+    ShellSort shellSort(arr, arraySize, "Shell Sort");
+    shellSort.printAverageRunTime(numIterations);
+    break;
+  }
+  case 2:
+  {
+    MergeSort mergeSort(arr, arraySize, "Merge Sort");
+    mergeSort.printAverageRunTime(numIterations);
+    break;
+  }
+  case 3:
+  {
+    HeapSort heapSort(arr, arraySize, "Heap Sort");
+    heapSort.printAverageRunTime(numIterations);
+    break;
+  }
+  default:
+  {
+    cout << "Invalid choice" << endl;
+    break;
+  }
+  }
 
   return 0;
 }
