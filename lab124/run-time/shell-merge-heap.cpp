@@ -77,10 +77,10 @@ protected:
   }
 };
 
-class ShellSort : public SortingAlgorithm
+class CountingSort : public SortingAlgorithm
 {
 public:
-  ShellSort(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
+  CountingSort(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
   {
   }
 
@@ -109,10 +109,10 @@ public:
   }
 };
 
-class MergeSort : public SortingAlgorithm
+class BinSort : public SortingAlgorithm
 {
 public:
-  MergeSort(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
+  BinSort(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
   {
   }
 
@@ -187,10 +187,10 @@ private:
   }
 };
 
-class HeapSort : public SortingAlgorithm
+class BucketSort : public SortingAlgorithm
 {
 public:
-  HeapSort(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
+  BucketSort(int arr[], int n, string name) : SortingAlgorithm(arr, n, name)
   {
   }
 
@@ -274,19 +274,19 @@ int main()
   {
   case 1:
   {
-    ShellSort shellSort(arr, arraySize, "Shell Sort");
+    CountingSort shellSort(arr, arraySize, "Shell Sort");
     shellSort.printAverageRunTime(numIterations);
     break;
   }
   case 2:
   {
-    MergeSort mergeSort(arr, arraySize, "Merge Sort");
+    BinSort mergeSort(arr, arraySize, "Merge Sort");
     mergeSort.printAverageRunTime(numIterations);
     break;
   }
   case 3:
   {
-    HeapSort heapSort(arr, arraySize, "Heap Sort");
+    BucketSort heapSort(arr, arraySize, "Heap Sort");
     heapSort.printAverageRunTime(numIterations);
     break;
   }
