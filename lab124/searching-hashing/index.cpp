@@ -1,4 +1,7 @@
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <vector>
 
 using namespace std;
 
@@ -24,8 +27,13 @@ public:
   LinearProbing(int table_length)
   {
     this->table_length = table_length;
-    hash_table = new int[table_length];
+    hash_table = new int[table_length]();
     reset();
+  }
+
+  ~LinearProbing()
+  {
+    delete[] hash_table;
   }
 
   void insert(int value)
@@ -39,21 +47,6 @@ public:
     }
 
     hash_table[index] = value;
-  }
-
-  void display()
-  {
-    cout << "===== Linear Probing =====" << endl;
-
-    for (int i = 0; i < table_length; i++)
-    {
-      if (hash_table[i] != -1)
-        cout << hash_table[i] << " ";
-      cout << "_ ";
-    }
-    cout << endl;
-    cout << "Probe Count: " << probe_count << endl;
-    cout << endl;
   }
 };
 
@@ -79,8 +72,13 @@ public:
   QuadraticProbing(int table_length)
   {
     this->table_length = table_length;
-    hash_table = new int[table_length];
+    hash_table = new int[table_length]();
     reset();
+  }
+
+  ~QuadraticProbing()
+  {
+    delete[] hash_table;
   }
 
   void insert(int value)
@@ -96,21 +94,6 @@ public:
     }
 
     hash_table[index] = value;
-  }
-
-  void display()
-  {
-    cout << "===== Quadratic Probing =====" << endl;
-
-    for (int i = 0; i < table_length; i++)
-    {
-      if (hash_table[i] != -1)
-        cout << hash_table[i] << " ";
-      cout << "_ ";
-    }
-    cout << endl;
-    cout << "Probe Count: " << probe_count << endl;
-    cout << endl;
   }
 };
 
@@ -128,7 +111,7 @@ private:
 
   int hashFunction2(int value)
   {
-    return 7 - (value % 7);
+    return 13 - (value % 13);
   }
 
   void reset()
@@ -141,8 +124,13 @@ public:
   DoubleHashing(int table_length)
   {
     this->table_length = table_length;
-    hash_table = new int[table_length];
+    this->hash_table = new int[table_length]();
     reset();
+  }
+
+  ~DoubleHashing()
+  {
+    delete[] hash_table;
   }
 
   void insert(int value)
@@ -158,44 +146,52 @@ public:
 
     hash_table[index] = value;
   }
-
-  void display()
-  {
-    cout << "===== Double Hashing =====" << endl;
-
-    for (int i = 0; i < table_length; i++)
-    {
-      if (hash_table[i] != -1)
-        cout << hash_table[i] << " ";
-      cout << "_ ";
-    }
-    cout << endl;
-    cout << "Probe Count: " << probe_count << endl;
-    cout << endl;
-  }
 };
+
+void getDiff(clock_t start, clock_t end)
+{
+  cout << "Time: " << (end - start) * 1000 / CLOCKS_PER_SEC << " ms" << endl;
+}
 
 int main()
 {
-  int arr[] = {25, 88, 3, 38, 20, 71, 55, 56, 50, 105};
-  int arrSize = sizeof(arr) / sizeof(arr[0]);
+  int arr_len = 100000;
+  vector<int> arr(arr_len);
 
-  int table_length = 17;
-
-  LinearProbing lp(table_length);
-  QuadraticProbing qp(table_length);
-  DoubleHashing dh(table_length);
-
-  for (int i = 0; i < arrSize; i++)
+  srand(time(0));
+  for (int i = 0; i < arr_len; i++)
   {
-    lp.insert(arr[i]);
-    qp.insert(arr[i]);
-    dh.insert(arr[i]);
+    arr[i] = rand() % 1000;
   }
 
-  lp.display();
-  qp.display();
-  dh.display();
+  clock_t start, end;
+
+  LinearProbing lp(arr_len);
+  start = clock();
+  for (int i = 0; i < arr_len; i++)
+  {
+    lp.insert(arr[i]);
+  }
+  end = clock();
+  getDiff(start, end);
+
+  QuadraticProbing qp(arr_len);
+  start = clock();
+  for (int i = 0; i < arr_len; i++)
+  {
+    qp.insert(arr[i]);
+  }
+  end = clock();
+  getDiff(start, end);
+
+  DoubleHashing dh(arr_len);
+  start = clock();
+  for (int i = 0; i < arr_len; i++)
+  {
+    dh.insert(arr[i]);
+  }
+  end = clock();
+  getDiff(start, end);
 
   return 0;
 }
