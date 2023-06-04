@@ -1,0 +1,32 @@
+Inserting 1000 items into the 2-4 tree took 0 milliseconds
+Searching for 1000 items in the 2-4 tree took 0 milliseconds
+Removing 1000 items from the 2-4 tree took 0 milliseconds
+
+Inserting 20000 items into the 2-4 tree took 1 milliseconds
+Searching for 20000 items in the 2-4 tree took 0 milliseconds
+Removing 20000 items from the 2-4 tree took 0 milliseconds
+
+Inserting 50000 items into the 2-4 tree took 3 milliseconds
+Searching for 50000 items in the 2-4 tree took 1 milliseconds
+Removing 50000 items from the 2-4 tree took 0 milliseconds
+
+Inserting 75000 items into the 2-4 tree took 5 milliseconds
+Searching for 75000 items in the 2-4 tree took 1 milliseconds
+Removing 75000 items from the 2-4 tree took 0 milliseconds
+
+Inserting 100000 items into the 2-4 tree took 6 milliseconds
+Searching for 100000 items in the 2-4 tree took 0 milliseconds
+Removing 100000 items from the 2-4 tree took 0 milliseconds
+
+Inserting 250000 items into the 2-4 tree took 17 milliseconds
+Searching for 250000 items in the 2-4 tree took 0 milliseconds
+Removing 250000 items from the 2-4 tree took 1 milliseconds
+
+Inserting 500000 items into the 2-4 tree took 34 milliseconds
+Searching for 500000 items in the 2-4 tree took 1 milliseconds
+Removing 500000 items from the 2-4 tree took 2 milliseconds
+
+Inserting 1000000 items into the 2-4 tree took 71 milliseconds
+Searching for 1000000 items in the 2-4 tree took 5 milliseconds
+Removing 1000000 items from the 2-4 tree took 2 milliseconds
+

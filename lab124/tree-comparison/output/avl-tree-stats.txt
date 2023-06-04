@@ -1,0 +1,32 @@
+Inserting 1000 items into the AVL tree took 0 milliseconds
+Searching 1000 items in the AVL tree took 0 milliseconds
+Removing 1000 items from the AVL tree took 0 milliseconds
+
+Inserting 20000 items into the AVL tree took 2 milliseconds
+Searching 20000 items in the AVL tree took 1 milliseconds
+Removing 20000 items from the AVL tree took 2 milliseconds
+
+Inserting 50000 items into the AVL tree took 8 milliseconds
+Searching 50000 items in the AVL tree took 1 milliseconds
+Removing 50000 items from the AVL tree took 9 milliseconds
+
+Inserting 75000 items into the AVL tree took 9 milliseconds
+Searching 75000 items in the AVL tree took 1 milliseconds
+Removing 75000 items from the AVL tree took 13 milliseconds
+
+Inserting 100000 items into the AVL tree took 11 milliseconds
+Searching 100000 items in the AVL tree took 3 milliseconds
+Removing 100000 items from the AVL tree took 16 milliseconds
+
+Inserting 250000 items into the AVL tree took 26 milliseconds
+Searching 250000 items in the AVL tree took 5 milliseconds
+Removing 250000 items from the AVL tree took 29 milliseconds
+
+Inserting 500000 items into the AVL tree took 52 milliseconds
+Searching 500000 items in the AVL tree took 10 milliseconds
+Removing 500000 items from the AVL tree took 58 milliseconds
+
+Inserting 1000000 items into the AVL tree took 105 milliseconds
+Searching 1000000 items in the AVL tree took 19 milliseconds
+Removing 1000000 items from the AVL tree took 122 milliseconds
+

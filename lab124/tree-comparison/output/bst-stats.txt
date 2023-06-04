@@ -1,0 +1,32 @@
+Inserting 1000 items into the BST took 0 milliseconds
+Searching 1000 items in the BST took 0 milliseconds
+Removing 1000 items from the BST took 0 milliseconds
+
+Inserting 20000 items into the BST took 0 milliseconds
+Searching 20000 items in the BST took 1 milliseconds
+Removing 20000 items from the BST took 1 milliseconds
+
+Inserting 50000 items into the BST took 2 milliseconds
+Searching 50000 items in the BST took 2 milliseconds
+Removing 50000 items from the BST took 2 milliseconds
+
+Inserting 75000 items into the BST took 2 milliseconds
+Searching 75000 items in the BST took 3 milliseconds
+Removing 75000 items from the BST took 1 milliseconds
+
+Inserting 100000 items into the BST took 3 milliseconds
+Searching 100000 items in the BST took 2 milliseconds
+Removing 100000 items from the BST took 1 milliseconds
+
+Inserting 250000 items into the BST took 4 milliseconds
+Searching 250000 items in the BST took 3 milliseconds
+Removing 250000 items from the BST took 4 milliseconds
+
+Inserting 500000 items into the BST took 7 milliseconds
+Searching 500000 items in the BST took 7 milliseconds
+Removing 500000 items from the BST took 8 milliseconds
+
+Inserting 1000000 items into the BST took 16 milliseconds
+Searching 1000000 items in the BST took 19 milliseconds
+Removing 1000000 items from the BST took 14 milliseconds
+
