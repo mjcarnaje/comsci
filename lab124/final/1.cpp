@@ -12,39 +12,39 @@
 #include <stack>
 using namespace std;
 
-void dijkstra(const vector<vector<int>> &graph, int src)
+void dijkstra(const vector<vector<int>> &graph, int source)
 {
-  int V = graph.size();
-  vector<int> dist(V, numeric_limits<int>::max());
-  dist[src] = 0;
+  int numVertices = graph.size();
+  vector<int> distances(numVertices, numeric_limits<int>::max());
+  distances[source] = 0;
   priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-  pq.push({0, src});
+  pq.push({0, source});
 
   while (!pq.empty())
   {
     int u = pq.top().second;
     pq.pop();
 
-    for (int v = 0; v < V; v++)
+    for (int v = 0; v < numVertices; v++)
     {
-      if (graph[u][v] != 0 && dist[u] != numeric_limits<int>::max() && dist[u] + graph[u][v] < dist[v])
+      if (graph[u][v] != 0 && distances[u] != numeric_limits<int>::max() && distances[u] + graph[u][v] < distances[v])
       {
-        dist[v] = dist[u] + graph[u][v];
-        pq.push({dist[v], v});
+        distances[v] = distances[u] + graph[u][v];
+        pq.push({distances[v], v});
       }
     }
   }
 
-  for (int i = 0; i < V; i++)
+  for (int i = 0; i < numVertices; i++)
   {
-    cout << "Vertex 0 -> Vertex " << i << " = " << dist[i] << endl;
+    cout << "Vertex " << source << " -> Vertex " << i << " = " << distances[i] << endl;
   }
 }
 
 bool isDirectedGraphConnected(const vector<vector<bool>> &graph)
 {
-  int V = graph.size();
-  vector<bool> visited(V, false);
+  int numVertices = graph.size();
+  vector<bool> visited(numVertices, false);
   queue<int> q;
   q.push(0);
   visited[0] = true;
@@ -54,7 +54,7 @@ bool isDirectedGraphConnected(const vector<vector<bool>> &graph)
     int u = q.front();
     q.pop();
 
-    for (int v = 0; v < V; v++)
+    for (int v = 0; v < numVertices; v++)
     {
       if (graph[u][v] && !visited[v])
       {
@@ -64,7 +64,7 @@ bool isDirectedGraphConnected(const vector<vector<bool>> &graph)
     }
   }
 
-  for (int i = 0; i < V; i++)
+  for (int i = 0; i < numVertices; i++)
   {
     if (!visited[i])
     {
@@ -75,13 +75,13 @@ bool isDirectedGraphConnected(const vector<vector<bool>> &graph)
   return true;
 }
 
-string bfs(const vector<vector<int>> &graph, int src)
+string bfs(const vector<vector<int>> &graph, int source)
 {
-  int V = graph.size();
-  vector<bool> visited(V, false);
+  int numVertices = graph.size();
+  vector<bool> visited(numVertices, false);
   queue<int> q;
-  q.push(src);
-  visited[src] = true;
+  q.push(source);
+  visited[source] = true;
   string result = "";
 
   while (!q.empty())
@@ -90,7 +90,7 @@ string bfs(const vector<vector<int>> &graph, int src)
     q.pop();
     result += to_string(u) + " ";
 
-    for (int v = 0; v < V; v++)
+    for (int v = 0; v < numVertices; v++)
     {
       if (graph[u][v] != 0 && !visited[v])
       {
@@ -103,13 +103,13 @@ string bfs(const vector<vector<int>> &graph, int src)
   return result;
 }
 
-string dfs(const vector<vector<int>> &graph, int src)
+string dfs(const vector<vector<int>> &graph, int source)
 {
-  int V = graph.size();
-  vector<bool> visited(V, false);
+  int numVertices = graph.size();
+  vector<bool> visited(numVertices, false);
   stack<int> s;
-  s.push(src);
-  visited[src] = true;
+  s.push(source);
+  visited[source] = true;
   string result = "";
 
   while (!s.empty())
@@ -118,7 +118,7 @@ string dfs(const vector<vector<int>> &graph, int src)
     s.pop();
     result += to_string(u) + " ";
 
-    for (int v = 0; v < V; v++)
+    for (int v = 0; v < numVertices; v++)
     {
       if (graph[u][v] != 0 && !visited[v])
       {
@@ -133,12 +133,12 @@ string dfs(const vector<vector<int>> &graph, int src)
 
 int getNumberOfEdges(const vector<vector<int>> &graph)
 {
-  int V = graph.size();
+  int numVertices = graph.size();
   int edges = 0;
 
-  for (int i = 0; i < V; i++)
+  for (int i = 0; i < numVertices; i++)
   {
-    for (int j = 0; j < V; j++)
+    for (int j = 0; j < numVertices; j++)
     {
       if (graph[i][j] != 0)
       {
@@ -152,7 +152,6 @@ int getNumberOfEdges(const vector<vector<int>> &graph)
 
 int main()
 {
-
   vector<vector<int>> graph = {
       {0, 2, 0, 20, 0, 0, 0, 0, 0, 0},
       {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
@@ -165,9 +164,9 @@ int main()
       {0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
       {0, 0, 0, 0, 0, 0, 0, 0, 1, 0}};
 
-  int V = graph.size();
+  int numVertices = graph.size();
 
-  vector<vector<bool>> boolGraph(V, vector<bool>(V, false));
+  vector<vector<bool>> boolGraph(numVertices, vector<bool>(numVertices, false));
 
   for (int i = 0; i < graph.size(); i++)
   {
@@ -189,9 +188,13 @@ int main()
   cout << "B. ";
   cout << "The directed graph is: ";
   if (isDirectedGraphConnected(boolGraph))
+  {
     cout << "connected";
+  }
   else
+  {
     cout << "not connected";
+  }
   cout << endl;
 
   cout << "============================================" << endl;
